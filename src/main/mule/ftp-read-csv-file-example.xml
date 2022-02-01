@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	<ftp:config name="FTP_Config" doc:name="FTP Config" doc:id="7ba7f8eb-94b0-4d22-8384-1d692885dbb9" >
+		<ftp:connection workingDir="empdir" host="localhost" username="ftp_test_user" password="ftp_test_user" />
+	</ftp:config>
+	<flow name="ftp-read-csv-file-exampleFlow" doc:id="bd412b69-108a-4624-8da2-985cf32407a0" >
+		<scheduler doc:name="Scheduler" doc:id="c3005057-d5e0-411b-8adf-bcf314e1c859" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="2" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Started FTP file " doc:id="06281575-1b28-4ed2-ace3-87c3d59686fa" message="Started read FTP file flow: #[payload]"/>
+		<ftp:read doc:id="18db6298-b2e8-4e50-a552-8eb58c96e56e" config-ref="FTP_Config" path="employee.csv"/>
+		<logger level="INFO" doc:name="End of FTP Read" doc:id="73832357-7004-4fd7-b0eb-f252ec5ab276" message="The records of the file are: #[payload]"/>
+	</flow>
+</mule>
